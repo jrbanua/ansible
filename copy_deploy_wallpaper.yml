@@ -20,5 +20,5 @@
   - name: set wallpaper position
     become_user: itops
     dconf:
-      key: "/ord/gnome/desktop/background/picture-options"
+      key: "/org/gnome/desktop/background/picture-options"
       value: "'zoom'"
