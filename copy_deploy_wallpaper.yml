@@ -1,0 +1,12 @@
+---
+
+- hosts: zorinnodes
+  become: true
+  tasks:
+
+  - name: copy wallpaper file
+    copy:
+      src: /home/jrbanua/ansible/files/wallpaper.jpg
+      dest: /home/itops/Pictures/wallpaper.jpg
+      owner: root
+      group: root
