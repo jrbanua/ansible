@@ -17,11 +17,11 @@
   - name: set wallpaper
     become_user: itops
     dconf:
-      key="/org/gnome/desktop/background/picture-uri"
-      value= "'file:///home/itops/Pictures/wallpaper.jpg'"
+      key: "/org/gnome/desktop/background/picture-uri"
+      value:  "'file:///home/itops/Pictures/wallpaper.jpg'"
 
   - name: set wallpaper position
     become_user: itops
     dconf:
-      key="/org/gnome/desktop/background/picture-options"
-      value="'zoom'"
+      key: "/org/gnome/desktop/background/picture-options"
+      value: "'zoom'"
