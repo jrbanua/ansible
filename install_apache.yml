@@ -1,0 +1,9 @@
+---
+
+- hosts: zorinnodes
+  become: true
+  tasks:
+
+  - name: install apache2 package
+    apt:
+      name: apache2
