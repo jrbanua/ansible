@@ -9,7 +9,7 @@
 
   - name: copy wallpaper file
     copy:
-      src: /home/jrbanua/ansible/files/wallpaper.jpg
+      src: /home/jrbanua/ansible/files/wallpaper_test.jpg
       dest: /usr/share/backgrounds/wallpaper_test.jpg
       owner: root
       group: root
