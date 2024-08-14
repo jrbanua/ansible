@@ -2,7 +2,16 @@
 
 - hosts: zorinnodes
   become: true
+
   tasks:
+
+  - name: install packages
+    package:
+      name:
+        - htop
+        - tmux
+        - vim-nox
+        - dconf 
 
   - name: Install python-psutil package
     apt: name=python-psutil
