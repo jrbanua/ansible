@@ -10,7 +10,7 @@
   - name: copy wallpaper file
     copy:
       src: /home/jrbanua/ansible/files/wallpaper.jpg
-      dest: /home/itops/Pictures/wallpaper.jpg
+      dest: /usr/share/backgrounds/wallpaper_test.jpg
       owner: root
       group: root
  
@@ -18,7 +18,7 @@
     become_user: itops
     dconf:
       key: "/org/gnome/desktop/background/picture-uri"
-      value:  "'file:///home/itops/Pictures/wallpaper.jpg'"
+      value:  "'file:///usr/share/backgrounds/wallpaper_test.jpg'"
 
   - name: set wallpaper position
     become_user: itops
