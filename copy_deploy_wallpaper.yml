@@ -10,11 +10,10 @@
       name:
         - htop
         - tmux
-        - vim-nox
-        - dconf 
+        - vim-nox 
 
-  - name: Install python-psutil package
-    apt: name=python-psutil
+  - name: Install python3-psutil package
+    apt: name=python3-psutil
 
   - name: copy wallpaper file
     copy:
@@ -24,13 +23,11 @@
       group: root
  
   - name: set wallpaper
-    become_user: itops
     dconf:
       key: "/org/gnome/desktop/background/picture-uri"
       value:  "'file:///usr/share/backgrounds/wallpaper_test.jpg'"
 
   - name: set wallpaper position
-    become_user: itops
     dconf:
       key: "/org/gnome/desktop/background/picture-options"
       value: "'zoom'"
