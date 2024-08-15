@@ -20,6 +20,11 @@
       dest: /usr/share/backgrounds/linuxtest.jpg
       owner: root
       group: root
+
+- name: copy script file
+    copy:
+      src: /home/jrbanua/ansible/files/change-background.sh
+      dest: /home/wonders/Documents/change-background.sh
  
   - name: set wallpaper
     become_user: itops
