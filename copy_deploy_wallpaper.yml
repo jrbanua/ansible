@@ -26,6 +26,6 @@
       src: /home/jrbanua/ansible/files/change-background.sh
       dest: /home/wonders/Documents/change-background.sh
  
-  - name: set wallpaper
+- name: set wallpaper
     become_user: wonders
     command: sh /home/wonders/Documents/change-background.sh
