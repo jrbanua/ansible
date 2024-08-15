@@ -22,4 +22,5 @@
       group: root
  
   - name: set wallpaper
+    become_user: itops
     ansible.builtin.script: /home/change-background.sh
