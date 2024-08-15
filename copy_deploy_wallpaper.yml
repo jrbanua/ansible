@@ -23,3 +23,5 @@
  
   - name: set wallpaper
     ansible.builtin.script: /usr/share/backgrounds/change-background.sh
+    owner: root
+    group: root
