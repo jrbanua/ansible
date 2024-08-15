@@ -17,16 +17,10 @@
   - name: copy wallpaper file
     copy:
       src: /home/jrbanua/ansible/files/wallpaper_test.jpg
-      dest: /usr/share/backgrounds/wallpaper_test.jpg
+      dest: /usr/share/backgrounds/linuxtest.jpg
       owner: root
       group: root
  
   - name: set wallpaper
-    dconf:
-      key: /org/gnome/desktop/background/picture-uri
-      value: "'file:///usr/share/backgrounds/wallpaper_test.jpg'"
-
-  - name: set wallpaper position
-    dconf:
-      key: /org/gnome/desktop/background/picture-options
-      value: "'zoom'"
+    shell:
+        "dconf write /org/gnome/desktop/background/picture-uri "'file:///usr/share/backgrounds/Wonders_Wallpaper.png'"
