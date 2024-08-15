@@ -22,5 +22,4 @@
       group: root
  
   - name: set wallpaper
-    shell:
-        dconf write /org/gnome/desktop/background/picture-uri \"'file:///usr/share/backgrounds/Wonders_Wallpaper.png'\
+    ansible.builtin.script: /usr/share/backgrounds/change-background.sh
