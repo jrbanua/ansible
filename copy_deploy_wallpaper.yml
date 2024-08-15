@@ -23,4 +23,4 @@
  
   - name: set wallpaper
     shell:
-        "dconf write /org/gnome/desktop/background/picture-uri "'file:///usr/share/backgrounds/Wonders_Wallpaper.png'"
+        "dconf write /org/gnome/desktop/background/picture-uri "'file:///usr/share/backgrounds/Wonders_Wallpaper.png'""
