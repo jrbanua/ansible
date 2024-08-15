@@ -4,7 +4,6 @@
   become: true
 
   tasks:
-
   - name: install packages
     package:
       name:
@@ -24,10 +23,10 @@
  
   - name: set wallpaper
     dconf:
-      key: "/org/gnome/desktop/background/picture-uri" 
+      key: "'/org/gnome/desktop/background/picture-uri'" 
       value: "'file:///usr/share/backgrounds/wallpaper_test.jpg'"
 
   - name: set wallpaper position
     dconf:
-      key: "/org/gnome/desktop/background/picture-options"
+      key: "'/org/gnome/desktop/background/picture-options'"
       value: "'zoom'"
