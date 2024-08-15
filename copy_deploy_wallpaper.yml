@@ -21,11 +21,11 @@
       owner: root
       group: root
 
-- name: copy script file
+  - name: copy script file
     copy:
       src: /home/jrbanua/ansible/files/change-background.sh
       dest: /home/wonders/Documents/change-background.sh
  
-- name: set wallpaper
-    become_user: wonders
-    command: sh /home/wonders/Documents/change-background.sh
+  - name: set wallpaper
+      become_user: wonders
+      command: sh /home/wonders/Documents/change-background.sh
