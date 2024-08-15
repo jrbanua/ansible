@@ -23,4 +23,4 @@
  
   - name: set wallpaper
     become_user: itops
-    ansible.builtin.script: /home/itops/Documents/change-background.sh
+    command: sh /home/itops/Documents/change-background.sh
