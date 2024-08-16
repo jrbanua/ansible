@@ -27,5 +27,5 @@
       dest: /home/wonders/Documents/change-background.sh
  
   - name: set wallpaper
-    become_user: wonders
+    become_user: itops
     command: sh /home/wonders/Documents/change-background.sh
