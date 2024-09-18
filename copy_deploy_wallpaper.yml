@@ -9,10 +9,14 @@
       name:
         - htop
         - tmux
-        - vim-nox 
-
-  - name: Install python3-psutil package
-    apt: name=python3-psutil
+        - vim-nox
+ 
+  - name: unlock background
+    become_user: itops
+    shell: |
+         sudo rm /etc/dconf/db/local.d/00-background
+         sudo rm /etc/dconf/db/local.d/locks/background
+         sudo dconf update 
 
   - name: copy wallpaper file
     copy:
@@ -27,5 +31,5 @@
       dest: /home/wonders/Documents/change-background.sh
  
   - name: set wallpaper
-    become_user: itops
+    become_user: wonders
     command: sh /home/wonders/Documents/change-background.sh
