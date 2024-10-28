@@ -1,0 +1,43 @@
+---
+- name: Clear Chrome Cache and History
+  hosts: zorinnodes
+  become: yes
+  tasks:
+   # - name: Remove file from specific user's profile
+   #   file:
+   #     path: /home/wonders/.config/google-chrome/SingletonLock  # Replace with the actual path
+   #     state: absent
+
+    - name: Kill all Chrome processes
+      ansible.builtin.command: pkill chrome
+      ignore_errors: yes
+    
+    - name: Remove Chrome cache and history files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - /home/wonders/.config/google-chrome/Default/Cache
+        - /home/wonders/.config/google-chrome/Default/History
+        - /home/wonders/.config/google-chrome/Default/Cookies
+        - /home/wonders/.config/google-chrome/Default/Local Storage
+        - /home/wonders/.config/google-chrome/Default/Session Storage
+        - /home/wonders/.config/google-chrome/Default/Visited Links
+        - /home/wonders/.config/google-chrome/Default/Media Cache
+        - /home/wonders/.config/google-chrome/Default/IndexedDB
+        - /home/wonders/.config/google-chrome/Default/Application Cache
+
+    - name: Re-create necessary Chrome directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      with_items:
+        - /home/wonders/.config/google-chrome/Default/Cache
+        - /home/wonders/.config/google-chrome/Default/Media Cache
+        - /home/wonders/.config/google-chrome/Default/Local Storage
+
+    - name: Start Google Chrome
+      ansible.builtin.shell: google-chrome &
+      args:
+        executable: /bin/bash
