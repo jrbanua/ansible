@@ -3,10 +3,6 @@
   hosts: zorinnodes
   become: yes
   tasks:
-   # - name: Remove file from specific user's profile
-   #   file:
-   #     path: /home/wonders/.config/google-chrome/SingletonLock  # Replace with the actual path
-   #     state: absent
 
     - name: Kill all Chrome processes
       ansible.builtin.command: pkill chrome
