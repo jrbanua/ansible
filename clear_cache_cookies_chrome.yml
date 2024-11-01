@@ -1,6 +1,6 @@
 ---
 - name: Clear Chrome Cache and History
-  hosts: zorinnodes
+  hosts: troubleshooting
   become: yes
   tasks:
 

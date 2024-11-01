@@ -1,0 +1,28 @@
+---
+- name: Restrict Google Account Logins
+  hosts: troubleshooting
+  become: true
+
+  tasks:
+    - name: Create Chrome policy directory
+      file:
+        path: /home/wonders/etc/opt/chrome/policies/managed
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Deploy Chrome policy to restrict Google account login
+      copy:
+        dest: /home/wonders/etc/opt/chrome/policies/managed/restricted_policy.json
+        content: |
+          {
+            "Accounts": {
+              "GoogleLoginServiceAllowed": true,
+              "SecondaryGoogleAccountSigninAllowed": false,
+              "AllowedDomainsForApps": ["wondersco.com"]
+            }
+          }
+        owner: root
+        group: root
+        mode: '0644'
