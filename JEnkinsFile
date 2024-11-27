@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Hello') {
             steps {
-                echo 'Hello World'
+                ansiblePlaybook credentialsId: 'JenkinsItops', installation: 'Ansible', inventory: 'hosts.ini', playbook: 'pop_up_message.yml', vaultTmpPath: ''
             }
         }
     }
