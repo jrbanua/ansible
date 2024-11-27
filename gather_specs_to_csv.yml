@@ -1,0 +1,38 @@
+---
+- name: Gather Linux machine specifications and save to CSV
+  hosts: troubleshooting
+  gather_facts: yes
+  tasks:
+    - name: Collect system specifications
+      set_fact:
+        system_specs:
+          hostname: "{{ ansible_hostname }}"
+          ip_address: "{{ ansible_default_ipv4.address }}"
+          os_family: "{{ ansible_os_family }}"
+          os_distro: "{{ ansible_distribution }}"
+          os_version: "{{ ansible_distribution_version }}"
+          cpu_cores: "{{ ansible_processor_cores }}"
+          total_memory: "{{ (ansible_memtotal_mb / 1024) | round(2) }}"
+          disk_space: "{{ ansible_devices.sda.size }}"
+
+    - name: Get System Serial Nuumber
+      become: yes
+      command: sudo dmidecode -s system-serial-number
+      register: serial_output
+    
+    - name: Append system specs to local CSV file
+      local_action:
+        module: lineinfile
+        path: /tmp/system_specs.csv
+        create: yes
+        line: "{{ system_specs.hostname }},{{ system_specs.ip_address }},{{system_specs.os_family}},{{system_specs.os_distro}},{{ system_specs.os_version }},{{ system_specs.cpu_cores }},{{ system_specs.total_memory }},{{ system_specs.disk_space }},{{ serial_output.stdout }}"
+      delegate_to: localhost
+
+    - name: Add CSV headers (if not already present)
+      local_action:
+        module: lineinfile
+        path: /tmp/system_specs.csv
+        line: "Hostname,IP Address,OS,OS Distro,OS Version,CPU Cores,Total Memory (GB),Disk Space,Serial Number"
+        insertafter: BOF
+      delegate_to: localhost
+      run_once: true

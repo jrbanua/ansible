@@ -11,7 +11,7 @@
 
     - name: Send pop-up notification
       ansible.builtin.command:
-        cmd: 'zenity --info --width=300 --height=100 --text="SWITCH TO DGT-API!"'
+        cmd: 'zenity --info --width=300 --height=100 --text="THIS IS FROM IT. PLEASE SWITCH TO PH-API AND CLEAR CACHE IF YOU CONTINUE NOT TO RECEIVE CALLS"'
   environment:
     DISPLAY: ":0"
   become_user: wonders

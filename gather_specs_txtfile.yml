@@ -1,0 +1,35 @@
+---
+- name: Gather Linux machine specifications and save to text file
+  hosts: zorinnodes
+  gather_facts: yes
+  tasks:
+    - name: Collect system specifications
+      set_fact:
+        system_specs:
+          hostname: "{{ ansible_hostname }}"
+          ip_address: "{{ ansible_default_ipv4.address }}"
+          os_version: "{{ ansible_distribution_version }}"
+          cpu_cores: "{{ ansible_processor_cores }}"
+          total_memory: "{{ ansible_memtotal_mb }} MB"
+          disk_space: "{{ ansible_devices.sda.size }}"
+
+    - name: Format system specifications for output
+      set_fact:
+        formatted_specs: |
+          Hostname: {{ system_specs.hostname }}
+          IP Address: {{ system_specs.ip_address }}
+          OS Version: {{ system_specs.os_version }}
+          CPU Cores: {{ system_specs.cpu_cores }}
+          Total Memory: {{ system_specs.total_memory }}
+          Disk Space: {{ system_specs.disk_space }}
+
+    - name: Append system specs to local text file
+      local_action:
+        module: lineinfile
+        path: /tmp/system_specs.txt
+        create: yes
+        line: |
+          --------------------------------------------------------
+          {{ formatted_specs }}
+          --------------------------------------------------------
+      delegate_to: localhost

@@ -1,0 +1,8 @@
+---
+- name: Play that gathers facts
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - name: Use ansible_hostname
+      debug:
+        msg: "{{ ansible_hostname }}"
