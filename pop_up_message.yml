@@ -2,7 +2,7 @@
 - name: Send pop-up reminder
   hosts: troubleshooting
   become: yes
-  become_pass: {{ ansible_become_pass }}
+  become_pass: "{{ ansible_become_pass }}"
   tasks:
     - name: Ensure libnotify is installed
       ansible.builtin.package:
