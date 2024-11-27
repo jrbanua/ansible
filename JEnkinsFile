@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Hello') {
             steps {
-                ansiblePlaybook credentialsId: '260beb25-51c4-4c32-8bda-f9855caad434', installation: 'Ansible', inventory: 'hosts.ini', playbook: 'pop_up_message.yml', vaultTmpPath: ''
+                ansiblePlaybook credentialsId: '1f72e708-5cab-4311-a7ba-15948cff0f20', installation: 'Ansible', inventory: 'hosts.ini', playbook: 'pop_up_message.yml', vaultTmpPath: ''
             }
         }
     }
