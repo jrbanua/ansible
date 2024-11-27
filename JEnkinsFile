@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Hello') {
             steps {
-                ansiblePlaybook becomeUser: 'itops', credentialsId: '467e68a1-23dc-4694-a198-a07a0a3fba69', installation: 'Ansible', inventory: 'hosts.ini', playbook: 'pop_up_message.yml', sudoUser: 'itops', vaultTmpPath: ''
+                ansiblePlaybook becomeUser: 'itops', credentialsId: '33b37a8d-23a8-4ef8-a7d3-2f5afe07bb9d', installation: 'Ansible', inventory: 'hosts.ini', playbook: 'install_apache.yml', vaultTmpPath: ''
             }
         }
     }
