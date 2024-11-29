@@ -1,6 +1,6 @@
 ---
 - name: Copy and install Google Chrome on Linux
-  hosts: all
+  hosts: troubleshooting
   become: true
   tasks:
     - name: Copy Google Chrome installer to the target machine
@@ -8,25 +8,10 @@
         src: /path/to/google-chrome-stable_current_amd64.deb
         dest: /tmp/google-chrome-stable_current_amd64.deb
         mode: '0644'
-      when: ansible_os_family == "Debian"
-
-    - name: Copy Google Chrome RPM installer to the target machine
-      copy:
-        src: /path/to/google-chrome-stable_current_x86_64.rpm
-        dest: /tmp/google-chrome-stable_current_x86_64.rpm
-        mode: '0644'
-      when: ansible_os_family == "RedHat"
 
     - name: Install Google Chrome on Debian-based systems
       apt:
         deb: /tmp/google-chrome-stable_current_amd64.deb
-      when: ansible_os_family == "Debian"
-
-    - name: Install Google Chrome on RedHat-based systems
-      yum:
-        name: /tmp/google-chrome-stable_current_x86_64.rpm
-        state: present
-      when: ansible_os_family == "RedHat"
 
     - name: Verify Google Chrome installation
       command: google-chrome --version
