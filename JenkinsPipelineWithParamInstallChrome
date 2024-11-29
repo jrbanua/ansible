@@ -10,8 +10,8 @@ pipeline {
     }
 
     environment {
-        INVENTORY_FILE = '/home/itops/ansible/ansible/install-google-chrome.yml' // Replace with the actual inventory file path
-        PLAYBOOK = '/home/itops/ansible/ansible/hosts.ini'   // Replace with the actual playbook path
+        INVENTORY_FILE = '/ansible/install-google-chrome.yml' // Replace with the actual inventory file path
+        PLAYBOOK = '/ansible/hosts.ini'   // Replace with the actual playbook path
     }
 
     stages {
