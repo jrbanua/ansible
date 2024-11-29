@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Hello') {
             steps {
-                ansiblePlaybook becomeUser: 'itops', credentialsId: 'b40ddfd2-56ac-45d4-bfcd-b5b02aa6a83d', installation: 'Ansible', inventory: 'hosts.ini', playbook: 'install-google-chrome.yml', vaultTmpPath: ''
+                ansiblePlaybook becomeUser: 'itops', credentialsId: 'ca3e0b18-1414-44ec-97e2-19f5029bdadd', installation: 'Ansible', inventory: 'hosts.ini', playbook: 'install-google-chrome.yml', vaultTmpPath: ''
             }
         }
     }
