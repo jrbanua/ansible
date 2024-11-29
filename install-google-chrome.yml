@@ -5,7 +5,7 @@
   tasks:
     - name: Copy Google Chrome installer to the target machine
       copy:
-        src: /home/itops/ansible/files/google-chrome-stable_current_amd64.deb
+        src: /home/itops/ansible/ansible/files/google-chrome-stable_current_amd64.deb
         dest: /home/itops/Documents/google-chrome-stable_current_amd64.deb
         mode: '0644'
 
