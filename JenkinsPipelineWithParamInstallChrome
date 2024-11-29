@@ -20,29 +20,8 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 script {
-                    // Clone the GitHub repository
-                    sh "rm -rf ansible" // Clean up if the repo already exists
-                    sh "git clone --branch ${REPO_BRANCH} ${REPO_URL} ansible"
-                }
-            }
-        }
-
-        stage('Run Ansible Playbook') {
-            steps {
-                script {
-                    withCredentials([sshUserPrivateKey(credentialsId: 'b40ddfd2-56ac-45d4-bfcd-b5b02aa6a83d', keyFileVariable: 'SSH_KEY')]) {
-                    sh """
-                        ansible-playbook -i ansible-project/${INVENTORY_FILE} ansible-project/${PLAYBOOK} \
-                        --extra-vars "target_group=${params.TARGET_GROUP}" \
-                        --private-key ${SSH_KEY}
-                    """
-}
-
-                    // Run the playbook using the selected group
-                    sh """
-                        ansible-playbook -i ansible/${INVENTORY_FILE} ansible/${PLAYBOOK} \
-                        --extra-vars "target_group=${params.TARGET_GROUP}"
-                    """
+                    ansiblePlaybook becomeUser: 'itops', credentialsId: 'b40ddfd2-56ac-45d4-bfcd-b5b02aa6a83d', installation: 'Ansible', inventory: ${INVENTORY_FILE}, playbook: ${PLAYBOOK}, vaultTmpPath: ''
+                    --extra-vars "target_group=${params.TARGET_GROUP}"
                 }
             }
         }
