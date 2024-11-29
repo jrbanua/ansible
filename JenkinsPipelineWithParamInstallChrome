@@ -30,8 +30,9 @@ pipeline {
         stage('Run Ansible Playbook') {
             steps {
                 script {
-                    withCredentials([ansiblePlaybook becomeUser: 'itops', sshUserPrivateKey(credentialsId: 'b40ddfd2-56ac-45d4-bfcd-b5b02aa6a83d')]) {
+                    withCredentials([sshUserPrivateKey(credentialsId: 'b40ddfd2-56ac-45d4-bfcd-b5b02aa6a83d')]) {
                     sh """
+                        ansiblePlaybook becomeUser: 'itops'
                         ansible-playbook -i ansible-project/${INVENTORY_FILE} ansible-project/${PLAYBOOK} \
                         --extra-vars "target_group=${params.TARGET_GROUP}" \
                         --private-key ${SSH_KEY}
