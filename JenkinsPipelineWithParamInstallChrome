@@ -4,7 +4,7 @@ pipeline {
     parameters {
         choice(
             name: 'TARGET_GROUP',
-            choices: ['troubleshooting', 'zorinnodes', 'subnetscan'], // Replace with actual groups from your inventory
+            choices: ['troubleshooting', 'zorrinnodes', 'subnetscan'], // Replace with actual groups in your inventory file
             description: 'Select the target group from the inventory file'
         )
     }
@@ -12,32 +12,28 @@ pipeline {
     environment {
         REPO_URL = 'https://github.com/jrbanua/ansible.git' // Replace with your GitHub repo URL
         REPO_BRANCH = 'main' // Replace with the desired branch
-        INVENTORY_FILE = 'hosts.ini' // Path to the inventory file in the repository
-        PLAYBOOK = 'install-google-chrome.yml' // Name of the playbook
+        INVENTORY_FILE = 'hosts.ini' // Replace with the inventory file path in the repo
+        PLAYBOOK = 'install-google-chrome.yml' // Replace with the playbook file name
     }
 
     stages {
         stage('Clone Repository') {
             steps {
-                withCredentials([sshUserPrivateKey(credentialsId: 'github-ssh-key', keyFileVariable: 'GIT_SSH_KEY')]) {
-                    // Clone the GitHub repository using the private key
-                    sh """
-                        rm -rf ansible
-                        GIT_SSH_COMMAND="ssh -i ${GIT_SSH_KEY} -o StrictHostKeyChecking=no" \
-                        git clone --branch ${REPO_BRANCH} ${REPO_URL} ansible-project
-                    """
+                script {
+                    // Clone the GitHub repository
+                    sh "rm -rf ansible" // Clean up if the repo already exists
+                    sh "git clone --branch ${REPO_BRANCH} ${REPO_URL} ansible"
                 }
             }
         }
 
         stage('Run Ansible Playbook') {
             steps {
-                withCredentials([sshUserPrivateKey(credentialsId: 'ansible-ssh-key', keyFileVariable: 'ANSIBLE_SSH_KEY')]) {
-                    // Run the Ansible playbook with the specified group
+                script {
+                    // Run the playbook using the selected group
                     sh """
                         ansible-playbook -i ansible/${INVENTORY_FILE} ansible/${PLAYBOOK} \
-                        --extra-vars "target_group=${params.TARGET_GROUP}" \
-                        --private-key ${ANSIBLE_SSH_KEY}
+                        --extra-vars "target_group=${params.TARGET_GROUP}"
                     """
                 }
             }
