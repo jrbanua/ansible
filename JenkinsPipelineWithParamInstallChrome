@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'TARGET_GROUP', defaultValue: 'BAY A', description: 'The target group to run the playbook on.')
+    }
+
+    environment {
+        INVENTORY_FILE = '/ansible/hosts.ini'
+        PLAYBOOK = '/ansible/install-google-chrome.yml'
+    }
+
+    stages {
+        stage('Run Ansible Playbook') {
+            steps {
+                script {
+                    // Display selected group
+                    echo "Running playbook on group: ${params.TARGET_GROUP}"
+
+                    // Run Ansible playbook
+                    sh """
+                        ansible-playbook -i ${INVENTORY_FILE} ${PLAYBOOK} \
+                        --extra-vars "target_group=${params.TARGET_GROUP}"
+                    """
+                }
+            }
+        }
+    }
+}
