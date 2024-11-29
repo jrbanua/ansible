@@ -5,13 +5,13 @@
   tasks:
     - name: Copy Google Chrome installer to the target machine
       copy:
-        src: /path/to/google-chrome-stable_current_amd64.deb
-        dest: /tmp/google-chrome-stable_current_amd64.deb
+        src: /home/itops/ansible/files/google-chrome-stable_current_amd64.deb
+        dest: /home/itops/Documents/google-chrome-stable_current_amd64.deb
         mode: '0644'
 
-    - name: Install Google Chrome on Debian-based systems
+    - name: Install Google Chrome on Debian-based systemscd
       apt:
-        deb: /tmp/google-chrome-stable_current_amd64.deb
+        deb: /home/itops/Documents/google-chrome-stable_current_amd64.deb
 
     - name: Verify Google Chrome installation
       command: google-chrome --version
