@@ -4,35 +4,37 @@ pipeline {
     parameters {
         choice(
             name: 'TARGET_GROUP',
-            choices: ['zorinnodes', 'troubleshooting', 'subnetscan'], // Replace with actual group names
+            choices: ['troubleshooting', 'zorrinnodes', 'subnetscan'], // Replace with actual groups in your inventory file
             description: 'Select the target group from the inventory file'
         )
     }
 
     environment {
-        WORKSPACE_DIR = "${env.ansible}"
-        INVENTORY_FILE = '/ansible/hosts.ini' // Replace with the actual inventory file path
-        PLAYBOOK = '/ansible/install-google-chrome.yml'   // Replace with the actual playbook path
+        REPO_URL = 'https://github.com/jrbanua/ansible.git' // Replace with your GitHub repo URL
+        REPO_BRANCH = 'main' // Replace with the desired branch
+        INVENTORY_FILE = 'hosts.ini' // Replace with the inventory file path in the repo
+        PLAYBOOK = 'install-google-chrome.yml' // Replace with the playbook file name
     }
 
     stages {
-        stage('Display Selected Group') {
+        stage('Clone Repository') {
             steps {
-                echo "Selected group: ${params.TARGET_GROUP}"
+                script {
+                    // Clone the GitHub repository
+                    sh "rm -rf ansible-project" // Clean up if the repo already exists
+                    sh "git clone --branch ${REPO_BRANCH} ${REPO_URL} ansible-project"
+                }
             }
         }
 
         stage('Run Ansible Playbook') {
             steps {
                 script {
+                    // Run the playbook using the selected group
                     sh """
-                        ansible-playbook -i ${INVENTORY_FILE} ${PLAYBOOK} \
+                        ansible-playbook -i ansible-project/${INVENTORY_FILE} ansible-project/${PLAYBOOK} \
                         --extra-vars "target_group=${params.TARGET_GROUP}"
                     """
-                }
-                debug {
-                    sh 'ls -l /ansible/'
-                    sh 'ls -l ${WORKSPACE}'
                 }
             }
         }
