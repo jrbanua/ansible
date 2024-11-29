@@ -30,6 +30,10 @@ pipeline {
                         --extra-vars "target_group=${params.TARGET_GROUP}"
                     """
                 }
+                debug {
+                    sh 'ls -l /ansible/'
+                    sh 'ls -l ${WORKSPACE}'
+                }
             }
         }
     }
