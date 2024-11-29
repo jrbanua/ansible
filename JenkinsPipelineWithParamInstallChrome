@@ -2,22 +2,28 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'TARGET_GROUP', defaultValue: 'BAY A', description: 'The target group to run the playbook on.')
+        choice(
+            name: 'TARGET_GROUP',
+            choices: ['zorinnodes', 'troubleshooting', 'subnetscan'], // Replace with actual group names
+            description: 'Select the target group from the inventory file'
+        )
     }
 
     environment {
-        INVENTORY_FILE = '/ansible/hosts.ini'
-        PLAYBOOK = '/ansible/install-google-chrome.yml'
+        INVENTORY_FILE = '/home/itops/ansible/ansible/install-google-chrome.yml' // Replace with the actual inventory file path
+        PLAYBOOK = '/home/itops/ansible/ansible/hosts.ini'   // Replace with the actual playbook path
     }
 
     stages {
+        stage('Display Selected Group') {
+            steps {
+                echo "Selected group: ${params.TARGET_GROUP}"
+            }
+        }
+
         stage('Run Ansible Playbook') {
             steps {
                 script {
-                    // Display selected group
-                    echo "Running playbook on group: ${params.TARGET_GROUP}"
-
-                    // Run Ansible playbook
                     sh """
                         ansible-playbook -i ${INVENTORY_FILE} ${PLAYBOOK} \
                         --extra-vars "target_group=${params.TARGET_GROUP}"
