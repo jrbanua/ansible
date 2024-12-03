@@ -1,6 +1,6 @@
 ---
 - name: Copy and install Google Chrome on Linux
-  hosts: "{{ TARGET_HOST }}"
+  hosts: troubleshooting
   become: true
   tasks:
     - name: Copy Google Chrome installer to the target machine
