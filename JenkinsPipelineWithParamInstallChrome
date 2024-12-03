@@ -12,11 +12,6 @@ pipeline {
             defaultValue: 'install-google-chrome.yml',
             description: 'Specify the Ansible playbook to execute'
         )
-        string(
-            name: 'BECOME_USER',
-            defaultValue: 'itops',
-            description: 'User to become for privilege escalation'
-        )
     }
 
     environment {
@@ -33,7 +28,7 @@ pipeline {
 
         stage('Run Ansible Playbook') {
             steps {
-                echo "Running Ansible Playbook: ${params.ANSIBLE_PLAYBOOK} on target hosts: ${params.TARGET_HOST_GROUP} with become_user: ${params.BECOME_USER}"
+                echo "Running Ansible Playbook: ${params.ANSIBLE_PLAYBOOK} on target hosts: ${params.TARGET_HOST_GROUP}"
                 
                 withCredentials([sshUserPrivateKey(credentialsId: 'b40ddfd2-56ac-45d4-bfcd-b5b02aa6a83d', keyFileVariable: 'SSH_KEY')]) {
                     sh """
