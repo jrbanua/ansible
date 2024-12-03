@@ -40,7 +40,6 @@ pipeline {
                     ansible-playbook -i ${INVENTORY_FILE} ${params.ANSIBLE_PLAYBOOK} \
                     --limit ${params.TARGET_HOST_GROUP} \
                     --private-key $SSH_KEY --user itops
-                    --become --become-user=${params.BECOME_USER}
                     """
                 }
             }
