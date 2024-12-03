@@ -2,26 +2,37 @@ pipeline {
     agent any
 
     parameters {
+        // Choice parameter to select the target host
         choice(
-            name: 'TARGET_GROUP',
-            choices: ['troubleshooting', 'zorrinnodes', 'subnetscan'], // Replace with actual groups in your inventory file
-            description: 'Select the target group from the inventory file'
+            name: 'TARGET_HOST',
+            choices: ['zorrinnodes', 'troubleshooting', 'subnetscan'], // Replace with your inventory hosts
+            description: 'Select the target host to run the playbook'
         )
     }
 
     environment {
-        REPO_URL = 'https://github.com/jrbanua/ansible.git' // Replace with your GitHub repo URL
-        REPO_BRANCH = 'main' // Replace with the desired branch
-        INVENTORY_FILE = 'hosts.ini' // Replace with the inventory file path in the repo
-        PLAYBOOK = 'install-google-chrome.yml' // Replace with the playbook file name
+        REPO_URL = 'https://github.com/jrbanua/ansible.git' // Replace with your GitHub repository URL
+        PLAYBOOK = 'install-google-chrome.yml'                                      // Replace with your playbook name
+        INVENTORY = 'hosts.ini'                                    // Replace with your inventory file name
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Checkout Code') {
             steps {
-                script {
-                    ansiblePlaybook becomeUser: 'itops', credentialsId: 'itops', installation: 'Ansible', inventory: ${INVENTORY_FILE}, playbook: ${PLAYBOOK}, vaultTmpPath: ''
-                    --extra-vars "target_group=${params.TARGET_GROUP}"
+                // Clone the GitHub repository
+                git branch: 'main', url: env.REPO_URL
+            }
+        }
+
+        stage('Run Ansible Playbook') {
+            steps {
+                // Run the Ansible playbook
+                ansiColor('xterm') {
+                    sh """
+                    ansible-playbook ${env.PLAYBOOK} \
+                    -i ${env.INVENTORY} \
+                    --limit ${params.TARGET_HOST}
+                    """
                 }
             }
         }
