@@ -20,7 +20,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 script {
-                    ansiblePlaybook becomeUser: 'itops', credentialsId: 'b40ddfd2-56ac-45d4-bfcd-b5b02aa6a83d', installation: 'Ansible', inventory: ${INVENTORY_FILE}, playbook: ${PLAYBOOK}, vaultTmpPath: ''
+                    ansiblePlaybook becomeUser: 'itops', credentialsId: 'itops', installation: 'Ansible', inventory: ${INVENTORY_FILE}, playbook: ${PLAYBOOK}, vaultTmpPath: ''
                     --extra-vars "target_group=${params.TARGET_GROUP}"
                 }
             }
