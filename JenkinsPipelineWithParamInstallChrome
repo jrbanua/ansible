@@ -10,7 +10,7 @@ pipeline {
     }
 
     environment {
-        INVENTORY_FILE = 'hotsts.ini' // Path to the inventory file in the Git repository
+        INVENTORY_FILE = 'hosts.ini' // Path to the inventory file in the Git repository
         ANSIBLE_CONFIG = './ansible.cfg' // Optional: Ansible configuration file
         ANSIBLE_PLAYBOOK = 'install-google-chrome.yml'
     }
