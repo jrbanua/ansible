@@ -2,41 +2,49 @@ pipeline {
     agent any
 
     parameters {
-        // Choice parameter to select the target host
         choice(
-            name: 'TARGET_HOST',
-            choices: ['zorrinnodes', 'troubleshooting', 'subnetscan'], // Replace with your inventory hosts
-            description: 'Select the target host to run the playbook'
+            name: 'TARGET_HOST_GROUP',
+            choices: ['troubleshooting', 'subnetscan', 'zorrinnodes'],
+            description: 'Select the target host group defined in the Ansible inventory'
         )
     }
 
     environment {
-        REPO_URL = 'https://github.com/jrbanua/ansible.git' // Replace with your GitHub repository URL
-        PLAYBOOK = 'install-google-chrome.yml'                                      // Replace with your playbook name
-        INVENTORY = 'hosts.ini'                                    // Replace with your inventory file name
+        INVENTORY_FILE = 'hotsts.ini' // Path to the inventory file in the Git repository
+        ANSIBLE_CONFIG = './ansible.cfg' // Optional: Ansible configuration file
+        ANSIBLE_PLAYBOOK = 'install-google-chrome.yml'
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('Checkout Repository') {
             steps {
-                // Clone the GitHub repository
-                withEnv(['PATH+GIT=/usr/bin']){
-                git branch: 'main', url: env.REPO_URL
-                }
+                echo 'Checking out Git repository...'
+                git branch: 'main', url: 'https://github.com/jrbanua/ansible.git'
             }
         }
 
         stage('Run Ansible Playbook') {
             steps {
-                // Run the Ansible playbook
-                ansiColor('xterm') {
+                echo "Running Ansible Playbook: ${params.ANSIBLE_PLAYBOOK} on group: ${params.TARGET_HOST_GROUP}"
+                script {
+                    // Execute the Ansible playbook with the selected host group
                     sh """
-                    ansible-playbook ${env.PLAYBOOK} \
-                    -i ${env.INVENTORY} \
-                    --limit ${params.TARGET_HOST}
+                    ansible-playbook -i ${INVENTORY_FILE} ${ANSIBLE_PLAYBOOK} --limit ${params.TARGET_HOST_GROUP}
                     """
                 }
             }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline execution finished!'
+        }
+        success {
+            echo 'Ansible playbook executed successfully!'
+        }
+        failure {
+            echo 'Ansible playbook execution failed.'
         }
     }
 }
