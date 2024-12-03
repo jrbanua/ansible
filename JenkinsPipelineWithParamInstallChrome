@@ -20,7 +20,9 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 // Clone the GitHub repository
+                withEnv(['PATH+GIT=/usr/bin']){
                 git branch: 'main', url: env.REPO_URL
+                }
             }
         }
 
