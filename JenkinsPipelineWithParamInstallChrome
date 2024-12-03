@@ -25,7 +25,8 @@ pipeline {
 
         stage('Run Ansible Playbook') {
             steps {
-                echo "Running Ansible Playbook: ${params.ANSIBLE_PLAYBOOK} on group: ${params.TARGET_HOST_GROUP}"
+                ansiblePlaybook becomeUser: 'itops', credentialsId: 'b40ddfd2-56ac-45d4-bfcd-b5b02aa6a83d', installation: 'Ansible', sudoUser: 'itops', vaultTmpPath: ''
+                echo "Running Ansible Playbook: ${params.ANSIBLE_PLAYBOOK} on group: ${params.TARGET_HOST_GROUP}"                
                 script {
                     // Execute the Ansible playbook with the selected host group
                     sh """
