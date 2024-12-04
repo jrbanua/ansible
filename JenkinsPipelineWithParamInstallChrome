@@ -33,9 +33,9 @@ pipeline {
                 withCredentials([sshUserPrivateKey(credentialsId: 'itops', keyFileVariable: 'SSH_KEY')]) {
                     sh """
                     ansible-playbook -i ${INVENTORY_FILE} ${params.ANSIBLE_PLAYBOOK} \
-                    ssh -o StrictHostKeyChecking=no
                     --limit ${params.TARGET_HOST_GROUP} \
-                    --private-key $SSH_KEY --user itops
+                    --private-key $SSH_KEY --user itops \
+                    -e ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
                     """
                 }
             }
