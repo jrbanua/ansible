@@ -7,9 +7,9 @@ pipeline {
             choices: ['troubleshooting', 'zorinnodes', 'subnetscan', 'test-bay'],
             description: 'Select the target host group from the inventory file'
         )
-        string(
+        choice(
             name: 'ANSIBLE_PLAYBOOK',
-            defaultValue: 'install-google-chrome.yml',
+            choices: ['install-google-chrome.yml', 'gather_specs_to_csv.yml'],
             description: 'Specify the Ansible playbook to execute'
         )
     }
