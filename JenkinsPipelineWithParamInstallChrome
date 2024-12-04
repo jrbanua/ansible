@@ -30,7 +30,7 @@ pipeline {
             steps {
                 echo "Running Ansible Playbook: ${params.ANSIBLE_PLAYBOOK} on target hosts: ${params.TARGET_HOST_GROUP}"
                 
-                withCredentials([sshUserPrivateKey(credentialsId: 'b40ddfd2-56ac-45d4-bfcd-b5b02aa6a83d', keyFileVariable: 'SSH_KEY')]) {
+                withCredentials([sshUserPrivateKey(credentialsId: 'itops', keyFileVariable: 'SSH_KEY')]) {
                     sh """
                     ansible-playbook -i ${INVENTORY_FILE} ${params.ANSIBLE_PLAYBOOK} \
                     --limit ${params.TARGET_HOST_GROUP} \
