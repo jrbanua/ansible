@@ -1,6 +1,6 @@
 ---
 - name: Send pop-up reminder
-  hosts: troubleshooting
+  hosts: BAY_N
   become: yes
   become_method: sudo
   tasks:
@@ -12,7 +12,7 @@
 
     - name: Send pop-up notification
       ansible.builtin.command:
-        cmd: 'zenity --info --width=300 --height=100 --text="THIS IS FROM IT. PLEASE SWITCH TO PH-API AND CLEAR CACHE IF YOU CONTINUE NOT TO RECEIVE CALLS"'
+        cmd: 'zenity --info --width=300 --height=100 --text="WARNING! YOUR INTERNET USAGE IS BEING MONITORED. PLEASE REFRAIN FROM ACCESSING UNWANTED SITES. CONTINUED ACCESS ON THESE SITES MAY LEAD TO DISCIPLINARY ACTION!"'
   environment:
     DISPLAY: ":0"
   become_user: wonders
