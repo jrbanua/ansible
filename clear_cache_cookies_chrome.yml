@@ -1,6 +1,6 @@
 ---
 - name: Clear Chrome Cache and History
-  hosts: troubleshooting
+  hosts: BAY_N
   become: yes
   tasks:
 
