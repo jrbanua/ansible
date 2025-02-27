@@ -1,0 +1,56 @@
+pipeline {
+    agent any
+
+    parameters {
+        choice(
+            name: 'TARGET_HOST_GROUP',
+            choices: ['troubleshooting', 'zorinnodes', 'subnetscan', 'BAY_N'],
+            description: 'Select the target host group from the inventory file'
+        )
+        choice(
+            name: 'ANSIBLE_PLAYBOOK',
+            choices: ['install-google-chrome.yml', 'gather_specs_to_csv.yml'],
+            description: 'Specify the Ansible playbook to execute'
+        )
+    }
+
+    environment {
+        INVENTORY_FILE = 'hosts.ini' // Path to the Ansible inventory file in the Git repository
+    }
+
+    stages {
+        stage('Checkout Repository') {
+            steps {
+                echo 'Checking out Git repository...'
+                git branch: 'main', url: 'https://github.com/jrbanua/ansible.git'
+            }
+        }
+
+        stage('Run Ansible Playbook') {
+            steps {
+                echo "Running Ansible Playbook: ${params.ANSIBLE_PLAYBOOK} on target hosts: ${params.TARGET_HOST_GROUP}"
+                
+                withCredentials([sshUserPrivateKey(credentialsId: 'itops-tarro', keyFileVariable: 'SSH_KEY')]) {
+                    sh """
+                    ansible-playbook -i ${INVENTORY_FILE} ${params.ANSIBLE_PLAYBOOK} \
+                    --limit ${params.TARGET_HOST_GROUP} \
+                    --private-key $SSH_KEY --user itops \
+                    -e "ansible_ssh_extra_args='-o StrictHostKeyChecking=no'"                    
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline execution completed.'
+        }
+        success {
+            echo 'Ansible playbook executed successfully!'
+        }
+        failure {
+            echo 'Ansible playbook execution failed.'
+        }
+    }
+}
