@@ -15,7 +15,7 @@ pipeline {
     }
 
     environment {
-        INVENTORY_FILE = 'hosts.ini' // Path to the Ansible inventory file in the Git repository
+        INVENTORY_FILE = 'inventory.ini' // Path to the Ansible inventory file in the Git repository
     }
 
     stages {
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 echo "Running Ansible Playbook: ${params.ANSIBLE_PLAYBOOK} on target hosts: ${params.TARGET_HOST_GROUP}"
                 
-                withCredentials([sshUserPrivateKey(credentialsId: 'itops-tarro', keyFileVariable: 'SSH_KEY')]) {
+                withCredentials([sshUserPrivateKey(credentialsId: 'itops', keyFileVariable: 'SSH_KEY')]) {
                     sh """
                     ansible-playbook -i ${INVENTORY_FILE} ${params.ANSIBLE_PLAYBOOK} \
                     --limit ${params.TARGET_HOST_GROUP} \
