@@ -4,7 +4,7 @@ pipeline {
     parameters {
         choice(
             name: 'TARGET_HOST_GROUP',
-            choices: ['troubleshooting', 'zorinnodes', 'subnetscan', 'BAY_N', 'dgt-workstations-4th-floor-bay-a'],
+            choices: ['troubleshooting', 'zorinnodes', 'subnetscan', 'BAY_N', 'dgt_workstations_4th_floor_bay_a'],
             description: 'Select the target host group from the inventory file'
         )
         choice(
