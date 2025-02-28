@@ -1,6 +1,6 @@
 ---
 - name: Gather Linux machine specifications and save to CSV
-  hosts: troubleshooting
+  hosts: all
   gather_facts: yes
   tasks:
     - name: Collect system specifications
